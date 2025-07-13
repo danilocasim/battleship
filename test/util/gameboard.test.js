@@ -1,5 +1,5 @@
-import { Gameboard } from "../../src/js/board/Gameboard.js";
-import { Ship } from "../../src/js/entities/Ship.js";
+import { Gameboard } from "../../src/js/model/Gameboard.js";
+import { Ship } from "../../src/js/model/Ship.js";
 
 describe("Gameboard", () => {
      it ("Should place the ship horizontally and have the instance of the ship", ()=> {

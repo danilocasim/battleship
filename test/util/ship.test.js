@@ -1,4 +1,4 @@
-import { Ship } from "../../src/js/entities/Ship.js"
+import { Ship } from "../../src/js/model/Ship.js"
 
 describe("Ship", () => {
     it("Should apply the length of the instance of Ship",() => {

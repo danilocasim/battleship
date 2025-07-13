@@ -1,5 +1,5 @@
-import { Human } from "../../src/js/entities/Human";
-import { Gameboard } from "../../src/js/board/Gameboard";
+import { Human } from "../../src/js/model/Human.js";
+import { Gameboard } from "../../src/js/model/Gameboard";
 
 describe("Human", () => {
     it("Should have its own gameboard", () => {
