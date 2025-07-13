@@ -1,1 +1,29 @@
 @import "./reset.css";
+
+.player-boards {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.board-row {
+  display: flex;
+}
+
+.board-cell {
+  width: 2rem;
+  height: 2rem;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.human-board .ship {
+  background-color: grey;
+}
+
+.miss {
+  background-color: lightgrey;
+}
+
+.player-boards .hit {
+  background-color: red;
+}
