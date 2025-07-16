@@ -1,23 +1,42 @@
-function attackHuman() {
-  const boardCells = document.querySelectorAll(".human-board .board-cell");
+import { game } from "../game";
 
-  console.log(boardCells);
-  const randomIndex = Math.floor(Math.random() * 100);
+function attackHuman(human) {
+  const boardCells = document.querySelectorAll(
+    ".human-board .board-cell:not(.hit):not(.miss)",
+  );
+
+  const randomIndex = Math.floor(Math.random() * boardCells.length);
 
   const cell = boardCells[randomIndex];
-  console.log(cell);
-  if (cell.classList.contains("ship")) cell.classList.add("hit");
-  else cell.classList.add("miss");
+  human.receiveAttack([cell.dataset.rowIndex, cell.dataset.colIndex]);
+
+  if (cell.classList.contains("ship")) {
+    cell.classList.add("hit");
+  } else cell.classList.add("miss");
+
+  if (human.isAllShipSunk()) game();
 }
 
-export function attackComputer() {
-  const boardCells = document.querySelectorAll(".computer-board .board-cell");
+export function attackComputer(human, computer) {
+  const computerBoardCells = document.querySelectorAll(
+    ".computer-board .board-cell",
+  );
 
-  boardCells.forEach((cell) => {
-    cell.addEventListener("click", () => {
-      if (cell.classList.contains("ship")) cell.classList.add("hit");
-      else cell.classList.add("miss");
-      attackHuman();
-    });
+  computerBoardCells.forEach((cell) => {
+    cell.addEventListener(
+      "click",
+      (e) => {
+        const cellRowIndex = cell.dataset.rowIndex;
+        const cellColumnIndex = cell.dataset.colIndex;
+        computer.receiveAttack([cellRowIndex, cellColumnIndex]);
+
+        if (cell.classList.contains("ship")) cell.classList.add("hit");
+        else cell.classList.add("miss");
+
+        if (computer.isAllShipSunk()) game();
+        attackHuman(human);
+      },
+      { once: true },
+    );
   });
 }

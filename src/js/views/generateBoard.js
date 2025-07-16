@@ -12,6 +12,7 @@ function generateBoard(board) {
       boardCell.dataset.colIndex = colIndex;
 
       if (cell.length) boardCell.classList.add("ship");
+
       boardRow.appendChild(boardCell);
     });
     boardDiv.appendChild(boardRow);
