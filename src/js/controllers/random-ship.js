@@ -5,7 +5,6 @@ import { attackComputer } from "./event";
 import { Computer } from "../model/Computer";
 
 function placeShipsRandom(playerBoard) {
-  const existingPosition = [];
   const randomRow = (shipLength) => {
     return Math.floor(Math.random() * (10 - shipLength + 1));
   };
@@ -13,12 +12,24 @@ function placeShipsRandom(playerBoard) {
     return Math.floor(Math.random() * (10 - shipLength + 1));
   };
 
-  for (let i = 1; i <= 10; i++) {
-    const randomRowIndex = randomRow(4);
-    const randomColIndex = randomCol(4);
-    const randomAxis =
+  for (let i = 1; i <= 5; i++) {
+    let randomRowIndex = randomRow(4);
+    let randomColIndex = randomCol(4);
+    let randomAxis =
       Math.floor(Math.random() * 3) + 1 === 1 ? "horizontal" : "vertical";
 
+    while (
+      !playerBoard.place(
+        [randomRowIndex, randomColIndex],
+        new Ship(4),
+        randomAxis,
+      )
+    ) {
+      randomRowIndex = randomRow(4);
+      randomColIndex = randomCol(4);
+      randomAxis =
+        Math.floor(Math.random() * 3) + 1 === 1 ? "horizontal" : "vertical";
+    }
     playerBoard.place(
       [randomRowIndex, randomColIndex],
       new Ship(4),

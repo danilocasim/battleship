@@ -11,18 +11,13 @@ export function game() {
   humanPlayer.gameboard.place([0, 2], new Ship(2), "horizontal");
   humanPlayer.gameboard.place([1, 1], new Ship(4), "vertical");
   humanPlayer.gameboard.place([0, 9], new Ship(4), "vertical");
-  humanPlayer.gameboard.place([9, 0], new Ship(3), "horizontal");
-
-  humanPlayer.gameboard.place([1, 4], new Ship(4), "vertical");
-  humanPlayer.gameboard.place([2, 0], new Ship(3), "horizontal");
 
   const computerPlayer = new Computer();
-  computerPlayer.gameboard.place([4, 2], new Ship(2), "horizontal");
+  computerPlayer.gameboard.place([4, 2], new Ship(4), "horizontal");
   computerPlayer.gameboard.place([1, 1], new Ship(4), "vertical");
   computerPlayer.gameboard.place([1, 9], new Ship(4), "vertical");
-  computerPlayer.gameboard.place([9, 0], new Ship(3), "horizontal");
-  computerPlayer.gameboard.place([1, 4], new Ship(4), "vertical");
-  computerPlayer.gameboard.place([2, 0], new Ship(3), "horizontal");
+  computerPlayer.gameboard.place([1, 1], new Ship(4), "vertical");
+  computerPlayer.gameboard.place([1, 9], new Ship(4), "vertical");
   randomShipListener();
 
   renderBoard(humanPlayer.gameboard.board, computerPlayer.gameboard.board);

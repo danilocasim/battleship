@@ -9,16 +9,22 @@ export class Gameboard {
     }
   }
 
+  checkShip(rowIndex, colIndex) {
+    if (this.board[rowIndex][colIndex].length) return true;
+  }
+
   place(index, ship, position) {
     const rowIndex = index[0];
     const colIndex = index[1];
     if (position === "horizontal") {
       for (let i = 0; i < ship.length; i++) {
+        if (this.checkShip(rowIndex, colIndex + i)) return false;
         this.board[rowIndex][colIndex + i] = ship;
       }
     }
     if (position === "vertical") {
       for (let i = 0; i < ship.length; i++) {
+        if (this.checkShip(rowIndex + i, colIndex)) return false;
         this.board[rowIndex + i][colIndex] = ship;
       }
     }

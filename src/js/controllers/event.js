@@ -34,7 +34,7 @@ export function attackComputer(human, computer) {
         else cell.classList.add("miss");
 
         if (computer.isAllShipSunk()) game();
-        attackHuman(human);
+        else attackHuman(human);
       },
       { once: true },
     );
