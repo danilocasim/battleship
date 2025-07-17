@@ -1,4 +1,3 @@
-import style from "../css/style.css";
 import { Human } from "./model/Human.js";
 import { Computer } from "./model/Computer.js";
 import { Ship } from "./model/Ship.js";
