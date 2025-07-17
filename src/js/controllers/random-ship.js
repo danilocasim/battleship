@@ -4,7 +4,7 @@ import { renderBoard } from "../views/dom-render";
 import { attackComputer } from "./event";
 import { Computer } from "../model/Computer";
 
-function placeShipsRandom(playerBoard) {
+export function placeShipsRandom(playerBoard, ships) {
   const randomRow = (shipLength) => {
     return Math.floor(Math.random() * (10 - shipLength + 1));
   };
@@ -12,38 +12,38 @@ function placeShipsRandom(playerBoard) {
     return Math.floor(Math.random() * (10 - shipLength + 1));
   };
 
-  for (let i = 1; i <= 5; i++) {
-    let randomRowIndex = randomRow(4);
-    let randomColIndex = randomCol(4);
+  ships.forEach((ship) => {
+    let randomRowIndex = randomRow(ship);
+    let randomColIndex = randomCol(ship);
     let randomAxis =
       Math.floor(Math.random() * 3) + 1 === 1 ? "horizontal" : "vertical";
 
     while (
       !playerBoard.place(
         [randomRowIndex, randomColIndex],
-        new Ship(4),
+        new Ship(ship),
         randomAxis,
       )
     ) {
-      randomRowIndex = randomRow(4);
-      randomColIndex = randomCol(4);
+      randomRowIndex = randomRow(ship);
+      randomColIndex = randomCol(ship);
       randomAxis =
         Math.floor(Math.random() * 3) + 1 === 1 ? "horizontal" : "vertical";
     }
     playerBoard.place(
       [randomRowIndex, randomColIndex],
-      new Ship(4),
+      new Ship(ship),
       randomAxis,
     );
-  }
+  });
 }
 
 function placeShip() {
   const humanPlayer = new Human();
   const computerPlayer = new Computer();
 
-  placeShipsRandom(humanPlayer.gameboard);
-  placeShipsRandom(computerPlayer.gameboard);
+  placeShipsRandom(humanPlayer.gameboard, [4, 4, 3, 3, 2, 2, 1, 1]);
+  placeShipsRandom(computerPlayer.gameboard, [4, 4, 3, 3, 2, 2, 1, 1]);
 
   renderBoard(humanPlayer.gameboard.board, computerPlayer.gameboard.board);
   attackComputer(humanPlayer.gameboard, computerPlayer.gameboard);
