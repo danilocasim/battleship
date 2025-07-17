@@ -14,7 +14,6 @@ class ComputerSmartAI {
     moves.forEach((move) => {
       const row = move[0];
       const col = move[1];
-      console.log(move);
 
       if (!(row < 0 || row > 9 || col < 0 || col > 9)) {
         ComputerSmartAI.possibleMoves.push(move);
@@ -24,23 +23,41 @@ class ComputerSmartAI {
 }
 
 function attackHuman(human) {
-  const boardCells = document.querySelectorAll(
-    ".human-board .board-cell:not(.hit):not(.miss)",
-  );
+  if (ComputerSmartAI.possibleMoves.length !== 0) {
+    const row = ComputerSmartAI.possibleMoves[0][0];
+    const column = ComputerSmartAI.possibleMoves[0][1];
 
-  const randomIndex = Math.floor(Math.random() * boardCells.length);
-  const cell = boardCells[randomIndex];
-  human.receiveAttack([cell.dataset.rowIndex, cell.dataset.colIndex]);
+    const getCell = document.querySelector(
+      `.human-board .board-cell[data-row-index = "${row}"][data-col-index = "${column}"]:not(.hit):not(.miss)`,
+    );
 
-  ComputerSmartAI.getAdjacentMoves(
-    Number(cell.dataset.rowIndex),
-    Number(cell.dataset.colIndex),
-  );
+    console.log(ComputerSmartAI.possibleMoves);
+    if (getCell !== null) {
+      human.receiveAttack([row, column]);
+      if (getCell.classList.contains("ship")) {
+        getCell.classList.add("hit");
+      } else {
+        getCell.classList.add("miss");
+      }
+    }
+    ComputerSmartAI.possibleMoves.shift();
+  } else {
+    const boardCells = document.querySelectorAll(
+      ".human-board .board-cell:not(.hit):not(.miss)",
+    );
+    const randomIndex = Math.floor(Math.random() * boardCells.length);
+    const cell = boardCells[randomIndex];
+    human.receiveAttack([cell.dataset.rowIndex, cell.dataset.colIndex]);
 
-  console.log(ComputerSmartAI.possibleMoves);
-
-  if (cell.classList.contains("ship")) cell.classList.add("hit");
-  else cell.classList.add("miss");
+    if (cell.classList.contains("ship")) {
+      cell.classList.add("hit");
+      ComputerSmartAI.possibleMoves = [];
+      ComputerSmartAI.getAdjacentMoves(
+        Number(cell.dataset.rowIndex),
+        Number(cell.dataset.colIndex),
+      );
+    } else cell.classList.add("miss");
+  }
 
   if (human.isAllShipSunk()) game();
 }
