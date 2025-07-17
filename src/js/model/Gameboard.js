@@ -4,29 +4,42 @@ export class Gameboard {
     for (let i = 0; i < 10; i++) {
       this.board.push([]);
       for (let j = 0; j < 10; j++) {
-        this.board[i].push({ isHit: false, coordinates: [i, j] });
+        this.board[i].push({ isHit: false });
       }
     }
   }
 
-  checkShip(rowIndex, colIndex) {
-    if (this.board[rowIndex][colIndex].length) return true;
+  checkShip(index, ship, position) {
+    if (position === "horizontal")
+      for (let i = 0; i < ship.length; i++) {
+        if (this.board[index[0]][index[1] + i].length) return true;
+      }
+
+    if (position === "vertical")
+      for (let i = 0; i < ship.length; i++) {
+        if (this.board[index[0] + i][index[1]].length) return true;
+      }
   }
 
   place(index, ship, position) {
     const rowIndex = index[0];
     const colIndex = index[1];
     if (position === "horizontal") {
+      if (this.checkShip(index, ship, position)) return false;
+
       for (let i = 0; i < ship.length; i++) {
-        if (this.checkShip(rowIndex, colIndex + i)) return false;
         this.board[rowIndex][colIndex + i] = ship;
       }
+      return true;
     }
     if (position === "vertical") {
+      if (this.checkShip(index, ship, position)) return false;
+
       for (let i = 0; i < ship.length; i++) {
         if (this.checkShip(rowIndex + i, colIndex)) return false;
         this.board[rowIndex + i][colIndex] = ship;
       }
+      return true;
     }
   }
 
