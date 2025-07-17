@@ -50,5 +50,19 @@ describe("Gameboard", () => {
         expect(gameboard.isAllShipSunk()).toBe(false)
     })
 
+    it("Should return false when placing if ship was exists horizontally", () => {
+        const gameboard = new Gameboard()
+        gameboard.place([1,0], new Ship(4), "horizontal")
+
+        expect(gameboard.place([1,2], new Ship(4), "horizontal")).toBe(false)
+    })
+
+    it("Should return false when placing if ship was exists vertically", () => {
+        const gameboard = new Gameboard()
+        gameboard.place([1,0], new Ship(4), "vertical")
+
+        expect(gameboard.place([2,0], new Ship(4), "vertical")).toBe(false)
+    })
+
   
 })
