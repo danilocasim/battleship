@@ -36,7 +36,6 @@ export class Gameboard {
       if (this.checkShip(index, ship, position)) return false;
 
       for (let i = 0; i < ship.length; i++) {
-        if (this.checkShip(rowIndex + i, colIndex)) return false;
         this.board[rowIndex + i][colIndex] = ship;
       }
       return true;
