@@ -22,44 +22,58 @@ class ComputerSmartAI {
   }
 }
 
-function attackHuman(human) {
-  if (ComputerSmartAI.possibleMoves.length !== 0) {
-    const row = ComputerSmartAI.possibleMoves[0][0];
-    const column = ComputerSmartAI.possibleMoves[0][1];
+const randomAttackHuman = (human) => {
+  const boardCells = document.querySelectorAll(
+    ".human-board .board-cell:not(.hit):not(.miss)",
+  );
+  const randomIndex = Math.floor(Math.random() * boardCells.length);
+  const cell = boardCells[randomIndex];
+  human.receiveAttack([cell.dataset.rowIndex, cell.dataset.colIndex]);
 
-    const getCell = document.querySelector(
-      `.human-board .board-cell[data-row-index = "${row}"][data-col-index = "${column}"]:not(.hit):not(.miss)`,
+  if (cell.classList.contains("ship")) {
+    cell.classList.add("hit");
+    ComputerSmartAI.possibleMoves = [];
+    ComputerSmartAI.getAdjacentMoves(
+      Number(cell.dataset.rowIndex),
+      Number(cell.dataset.colIndex),
     );
 
-    console.log(ComputerSmartAI.possibleMoves);
-    if (getCell !== null) {
-      human.receiveAttack([row, column]);
-      if (getCell.classList.contains("ship")) {
-        getCell.classList.add("hit");
-      } else {
-        getCell.classList.add("miss");
-      }
-    }
-    ComputerSmartAI.possibleMoves.shift();
-  } else {
-    const boardCells = document.querySelectorAll(
-      ".human-board .board-cell:not(.hit):not(.miss)",
-    );
-    const randomIndex = Math.floor(Math.random() * boardCells.length);
-    const cell = boardCells[randomIndex];
-    human.receiveAttack([cell.dataset.rowIndex, cell.dataset.colIndex]);
-
-    if (cell.classList.contains("ship")) {
-      cell.classList.add("hit");
-      ComputerSmartAI.possibleMoves = [];
-      ComputerSmartAI.getAdjacentMoves(
-        Number(cell.dataset.rowIndex),
-        Number(cell.dataset.colIndex),
-      );
-    } else cell.classList.add("miss");
-  }
+    attackHuman(human);
+  } else cell.classList.add("miss");
 
   if (human.isAllShipSunk()) game();
+};
+
+// BUG not all moves is hit it still receive attack even it's attacked already
+function attackHuman(human) {
+  setTimeout(() => {
+    if (ComputerSmartAI.possibleMoves.length !== 0) {
+      const row = ComputerSmartAI.possibleMoves[0][0];
+      const column = ComputerSmartAI.possibleMoves[0][1];
+
+      const getCell = document.querySelector(
+        `.human-board .board-cell[data-row-index = "${row}"][data-col-index = "${column}"]:not(.hit):not(.miss)`,
+      );
+      console.log(getCell);
+
+      if (getCell !== null) {
+        human.receiveAttack([row, column]);
+        if (getCell.classList.contains("ship")) {
+          getCell.classList.add("hit");
+          ComputerSmartAI.possibleMoves = [];
+          ComputerSmartAI.getAdjacentMoves(row, column);
+          attackHuman(human);
+        } else {
+          getCell.classList.add("miss");
+        }
+      } else {
+        ComputerSmartAI.possibleMoves = [];
+        randomAttackHuman(human);
+      }
+    } else {
+      randomAttackHuman(human);
+    }
+  }, 1000);
 }
 
 export function attackComputer(human, computer) {
@@ -76,10 +90,12 @@ export function attackComputer(human, computer) {
         computer.receiveAttack([cellRowIndex, cellColumnIndex]);
 
         if (cell.classList.contains("ship")) cell.classList.add("hit");
-        else cell.classList.add("miss");
+        else {
+          cell.classList.add("miss");
+          attackHuman(human);
+        }
 
-        if (computer.isAllShipSunk()) game();
-        else attackHuman(human);
+        if (computer.isAllShipSunk()) return game();
       },
       { once: true },
     );
