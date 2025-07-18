@@ -8,13 +8,24 @@
 
   <body>
     <div class="container">
+      <div class="title"><h1>The Battleship</h1></div>
       <div class="player-boards">
-        <div class="human-board"></div>
-        <div class="computer-board"></div>
-        <div class="buttons">
-          <button id="placeShipRandom">Random Ship</button>
+        <div class="wrapper">
+          <h2>Human Board</h2>
+          <div class="human-board"></div>
+        </div>
+        <div class="wrapper">
+          <div class="computer-board"></div>
+          <h2>Computer Board</h2>
         </div>
       </div>
+      <div class="buttons">
+        <button id="placeShipRandom">Random Ship</button>
+      </div>
     </div>
+    <dialog id="announcement" close>
+      <h2 id="winner">You Win</h2>
+      <button autofocus id="playAgain">Play Again?</button>
+    </dialog>
   </body>
 </html>

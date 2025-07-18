@@ -2,8 +2,9 @@ import { Human } from "./model/Human.js";
 import { Computer } from "./model/Computer.js";
 import { Ship } from "./model/Ship.js";
 import { renderBoard } from "./views/dom-render.js";
-import { attackComputer } from "./controllers/event.js";
+import { attackComputer } from "./controllers/random-attack.js";
 import { randomShipListener } from "./controllers/random-ship.js";
+import { playAgainListener } from "./controllers/play-again.js";
 
 export function game() {
   const humanPlayer = new Human();
@@ -21,4 +22,5 @@ export function game() {
 
   renderBoard(humanPlayer.gameboard.board, computerPlayer.gameboard.board);
   attackComputer(humanPlayer.gameboard, computerPlayer.gameboard);
+  playAgainListener();
 }

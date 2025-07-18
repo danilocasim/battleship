@@ -1,4 +1,5 @@
 import { game } from "../game";
+import { showWinner } from "./winner";
 
 class ComputerSmartAI {
   static possibleMoves = [];
@@ -41,10 +42,9 @@ const randomAttackHuman = (human) => {
     attackHuman(human);
   } else cell.classList.add("miss");
 
-  if (human.isAllShipSunk()) game();
+  if (human.isAllShipSunk()) return showWinner("computer");
 };
 
-// BUG not all moves is hit it still receive attack even it's attacked already
 function attackHuman(human) {
   setTimeout(() => {
     if (ComputerSmartAI.possibleMoves.length !== 0) {
@@ -95,7 +95,7 @@ export function attackComputer(human, computer) {
           attackHuman(human);
         }
 
-        if (computer.isAllShipSunk()) return game();
+        if (computer.isAllShipSunk()) return showWinner("human");
       },
       { once: true },
     );

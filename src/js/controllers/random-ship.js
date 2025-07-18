@@ -1,22 +1,24 @@
 import { Ship } from "../model/Ship";
 import { Human } from "../model/Human";
 import { renderBoard } from "../views/dom-render";
-import { attackComputer } from "./event";
+import { attackComputer } from "./random-attack";
 import { Computer } from "../model/Computer";
 
 export function placeShipsRandom(playerBoard, ships) {
-  const randomRow = (shipLength) => {
-    return Math.floor(Math.random() * (10 - shipLength + 1));
+  const randomRow = (shipLength, axis) => {
+    if (axis === "horizontal") return Math.floor(Math.random() * 10);
+    return Math.floor(Math.random() * (10 - shipLength));
   };
-  const randomCol = (shipLength) => {
-    return Math.floor(Math.random() * (10 - shipLength + 1));
+  const randomCol = (shipLength, axis) => {
+    if (axis === "vertical") return Math.floor(Math.floor(Math.random() * 10));
+    return Math.floor(Math.random() * (10 - shipLength));
   };
 
   ships.forEach((ship) => {
-    let randomRowIndex = randomRow(ship);
-    let randomColIndex = randomCol(ship);
     let randomAxis =
       Math.floor(Math.random() * 3) + 1 === 1 ? "horizontal" : "vertical";
+    let randomRowIndex = randomRow(ship, randomAxis);
+    let randomColIndex = randomCol(ship, randomAxis);
 
     while (
       !playerBoard.place(
@@ -25,10 +27,10 @@ export function placeShipsRandom(playerBoard, ships) {
         randomAxis,
       )
     ) {
-      randomRowIndex = randomRow(ship);
-      randomColIndex = randomCol(ship);
       randomAxis =
         Math.floor(Math.random() * 3) + 1 === 1 ? "horizontal" : "vertical";
+      randomRowIndex = randomRow(ship, randomAxis);
+      randomColIndex = randomCol(ship, randomAxis);
     }
     playerBoard.place(
       [randomRowIndex, randomColIndex],
