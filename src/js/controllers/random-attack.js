@@ -2,6 +2,7 @@ import { game } from "../game";
 import { showWinner } from "./winner";
 import { disableAllCell, enableAllCell } from "./block-btn";
 
+import { playerTurn } from "./player-turn";
 class ComputerSmartAI {
   static possibleMoves = [];
 
@@ -31,23 +32,29 @@ const randomAttackHuman = (human) => {
   const randomIndex = Math.floor(Math.random() * boardCells.length);
   const cell = boardCells[randomIndex];
   human.receiveAttack([cell.dataset.rowIndex, cell.dataset.colIndex]);
+  playerTurn("computer");
 
   if (cell.classList.contains("ship")) {
     cell.classList.add("hit");
+    playerTurn("computer");
+
     ComputerSmartAI.possibleMoves = [];
     ComputerSmartAI.getAdjacentMoves(
       Number(cell.dataset.rowIndex),
       Number(cell.dataset.colIndex),
     );
 
-    attackHuman(human);
+    return attackHuman(human);
   } else cell.classList.add("miss");
+  playerTurn("human");
 
   if (human.isAllShipSunk()) return showWinner("computer");
 };
 
 function attackHuman(human) {
   disableAllCell();
+  playerTurn("computer");
+
   setTimeout(() => {
     if (ComputerSmartAI.possibleMoves.length !== 0) {
       const row = ComputerSmartAI.possibleMoves[0][0];
@@ -59,23 +66,30 @@ function attackHuman(human) {
 
       if (getCell !== null) {
         human.receiveAttack([row, column]);
+
         if (getCell.classList.contains("ship")) {
           getCell.classList.add("hit");
           ComputerSmartAI.possibleMoves = [];
           ComputerSmartAI.getAdjacentMoves(row, column);
-          attackHuman(human);
+
+          return attackHuman(human);
         } else {
           getCell.classList.add("miss");
+          playerTurn("human");
         }
       } else {
         ComputerSmartAI.possibleMoves = [];
+        playerTurn("human");
+
         randomAttackHuman(human);
       }
     } else {
+      playerTurn("human");
+
       randomAttackHuman(human);
     }
     enableAllCell();
-  }, 2000);
+  }, 1000);
 }
 
 export function attackComputer(human, computer) {
