@@ -57,6 +57,11 @@
 }
 
 dialog {
+  background-color: rgb(0, 255, 0);
+  color: #0b1215;
+  border-top: 5px solid #0b1215;
+  border-right: 5px solid #0b1215;
+  border-radius: 15px;
   width: 25vw;
   height: 25vh;
   position: absolute;
@@ -65,8 +70,26 @@ dialog {
   transform: translate(-50%, -50%);
 }
 
+#winner {
+  font-size: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  height: 100%;
+}
+
+#playAgain {
+  background-color: #0b1215;
+  color: rgb(0, 255, 0);
+  border-radius: 15px;
+}
 .blur {
-  filter: blur(5px);
+  filter: blur(2px);
 }
 
 button {
