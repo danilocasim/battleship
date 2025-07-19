@@ -54,7 +54,6 @@ function attackHuman(human) {
       const getCell = document.querySelector(
         `.human-board .board-cell[data-row-index = "${row}"][data-col-index = "${column}"]:not(.hit):not(.miss)`,
       );
-      console.log(getCell);
 
       if (getCell !== null) {
         human.receiveAttack([row, column]);
