@@ -1,5 +1,6 @@
 import { game } from "../game";
 import { showWinner } from "./winner";
+import { disableAllCell, enableAllCell } from "./block-btn";
 
 class ComputerSmartAI {
   static possibleMoves = [];
@@ -46,6 +47,7 @@ const randomAttackHuman = (human) => {
 };
 
 function attackHuman(human) {
+  disableAllCell();
   setTimeout(() => {
     if (ComputerSmartAI.possibleMoves.length !== 0) {
       const row = ComputerSmartAI.possibleMoves[0][0];
@@ -72,7 +74,8 @@ function attackHuman(human) {
     } else {
       randomAttackHuman(human);
     }
-  }, 1000);
+    enableAllCell();
+  }, 2000);
 }
 
 export function attackComputer(human, computer) {
