@@ -32,11 +32,9 @@ const randomAttackHuman = (human) => {
   const randomIndex = Math.floor(Math.random() * boardCells.length);
   const cell = boardCells[randomIndex];
   human.receiveAttack([cell.dataset.rowIndex, cell.dataset.colIndex]);
-  playerTurn("computer");
 
   if (cell.classList.contains("ship")) {
     cell.classList.add("hit");
-    playerTurn("computer");
 
     ComputerSmartAI.possibleMoves = [];
     ComputerSmartAI.getAdjacentMoves(
@@ -71,7 +69,6 @@ function attackHuman(human) {
           getCell.classList.add("hit");
           ComputerSmartAI.possibleMoves = [];
           ComputerSmartAI.getAdjacentMoves(row, column);
-
           return attackHuman(human);
         } else {
           getCell.classList.add("miss");
@@ -79,13 +76,9 @@ function attackHuman(human) {
         }
       } else {
         ComputerSmartAI.possibleMoves = [];
-        playerTurn("human");
-
         randomAttackHuman(human);
       }
     } else {
-      playerTurn("human");
-
       randomAttackHuman(human);
     }
     enableAllCell();
